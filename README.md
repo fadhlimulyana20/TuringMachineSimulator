@@ -1,0 +1,2 @@
+## Simulator Turing Machine
+Project ini adalah tugas besar mata kuliah Teori bahasa dan Automata. Project simulator ini akan menampilkan simulasi turing machine yang berbasis tape atau pita pada jendela terminal. Simulator ini masih berbentuk aplikasi CLI.
