@@ -44,6 +44,31 @@ class TuringMachine:
                             ('q4', 'x'): ('q0', 'x', 1),
                             ('q0', 'c'): ('q5', 'b', 1), }
 
+    def substractionMode(self):
+        self.states = {'q0', 'q1', 'q2', 'q3',
+                       'q4', 'q5', 'q6', 'q7', 'q8', 'q9'}
+        self.symbols = {'0', 'c', 'b', 'x'}
+        self.blank_symbol = 'b'
+        self.input_symbols = {'0', 'c'}
+        self.initial_state = 'q0'
+        self.accepting_states = {'q9'}
+        self.transitions = {('q0', 'b'): ('q1', 'b', 1),
+                            ('q0', '0'): ('q1', '0', 0),
+                            ('q1', '0'): ('q2', 'b', 1),
+                            ('q2', '0'): ('q2', '0', 1),
+                            ('q2', 'c'): ('q3', 'c', 1),
+                            ('q3', '0'): ('q3', '0', 1),
+                            ('q3', 'b'): ('q4', 'b', -1),
+                            ('q4', '0'): ('q5', 'b', -1),
+                            ('q5', '0'): ('q6', '0', -1),
+                            ('q5', 'c'): ('q9', 'b', 0),
+                            ('q6', '0'): ('q6', '0', -1),
+                            ('q6', 'c'): ('q7', 'c', -1),
+                            ('q7', '0'): ('q8', '0', -1),
+                            ('q7', 'b'): ('q9', 'b', 0),
+                            ('q8', '0'): ('q8', '0', -1),
+                            ('q8', 'b'): ('q1', 'b', 1)}
+
     def step(self):
         if self.halted:
             raise RuntimeError('Cannot step halted machine')
@@ -95,13 +120,13 @@ if __name__ == '__main__':
     #                    )
 
     tm = TuringMachine()
-    tm.additionMode()
+    tm.substractionMode()
 
-    tm.initialize({0: '0', 1: '0', 2: 'c', 3: '0', 4: '0', 5: '0'})
+    tm.initialize({0: '0', 1: '0', 2: 'c', 3: '0', 4: '0'})
 
     while not tm.halted:
         tm.print()
         tm.step()
         time.sleep(1)
 
-    print(tm.accepted_input())
+    print('Accepted : ', tm.accepted_input())
