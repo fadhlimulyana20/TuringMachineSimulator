@@ -69,6 +69,33 @@ class TuringMachine:
                             ('q8', '0'): ('q8', '0', -1),
                             ('q8', 'b'): ('q1', 'b', 1)}
 
+    def multiplicationMode(self):
+        self.states = {'q0', 'q1', 'q2', 'q3',
+                       'q4', 'q5', 'q6', 'q7'}
+        self.symbols = {'1', '0', 'b', 'x'}
+        self.blank_symbol = 'b'
+        self.input_symbols = {'0', '1'}
+        self.initial_state = 'q0'
+        self.accepting_states = {'q7'}
+        self.transitions = {('q0', '0'): ('q1', 'b', 1),
+                            ('q0', '1'): ('q6', 'b', 1),
+                            ('q1', '0'): ('q1', '0', 1),
+                            ('q1', '1'): ('q2', '1', 1),
+                            ('q2', '0'): ('q3', 'x', 1),
+                            ('q2', '1'): ('q5', '1', -1),
+                            ('q3', '0'): ('q3', '0', 1),
+                            ('q3', '1'): ('q3', '1', 1),
+                            ('q3', 'b'): ('q4', '0', -1),
+                            ('q4', '0'): ('q4', '0', -1),
+                            ('q4', '1'): ('q4', '1', -1),
+                            ('q4', 'x'): ('q2', 'x', 1),
+                            ('q5', '0'): ('q5', '0', -1),
+                            ('q5', '1'): ('q5', '1', -1),
+                            ('q5', 'x'): ('q5', '0', -1),
+                            ('q5', 'b'): ('q0', 'b', 1),
+                            ('q6', '0'): ('q6', 'b', 1),
+                            ('q6', '1'): ('q7', 'b', 1)}
+
     def step(self):
         if self.halted:
             raise RuntimeError('Cannot step halted machine')
@@ -120,9 +147,9 @@ if __name__ == '__main__':
     #                    )
 
     tm = TuringMachine()
-    tm.substractionMode()
+    tm.multiplicationMode()
 
-    tm.initialize({0: '0', 1: '0', 2: 'c', 3: '0', 4: '0'})
+    tm.initialize({0: '0', 1: '0', 2: '0', 3: '1', 4: '0', 5: '0', 6: '1'})
 
     while not tm.halted:
         tm.print()
