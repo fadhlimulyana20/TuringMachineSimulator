@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -12,7 +12,7 @@ app = FastAPI()
 class TuringInput(BaseModel):
     input_symbols: str
     mode: str
-    tape_string: Optional[list[str]] = None
+    tape_string: Optional[List[str]] = None
     is_accepted: Optional[bool] = False
 
 
@@ -30,6 +30,54 @@ async def create_turing(turingInput: TuringInput):
     if turingInput.mode == 'add':
         tm = TuringMachine()
         tm.additionMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.step()
+            tm.print()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
+
+    elif turingInput.mode == 'substract':
+        tm = TuringMachine()
+        tm.substractionMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.step()
+            tm.print()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
+
+    elif turingInput.mode == 'multiply':
+        tm = TuringMachine()
+        tm.multiplicationMode()
 
         symbols = ','.join(turingInput.input_symbols)
         symbols = symbols.split(',')

@@ -1,28 +1,29 @@
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
+from typing import DefaultDict, Dict, List, Set, Tuple
 
 
 @dataclass
 class TuringMachine:
-    states: set[str] = field(init=False)
-    symbols: set[str] = field(init=False)
+    states: Set[str] = field(init=False)
+    symbols: Set[str] = field(init=False)
     blank_symbol: str = field(init=False)
-    input_symbols: set[str] = field(init=False)
+    input_symbols: Set[str] = field(init=False)
     initial_state: str = field(init=False)
-    accepting_states: set[str] = field(init=False)
-    transitions: dict[tuple[str, str],
-                      tuple[str, str, int]] = field(init=False)
+    accepting_states: Set[str] = field(init=False)
+    transitions: Dict[Tuple[str, str],
+                      Tuple[str, str, int]] = field(init=False)
     # state, symbol -> new state, new symbol, direction
 
     head: int = field(init=False)
-    tape: defaultdict[int, str] = field(init=False)
+    tape: DefaultDict[int, str] = field(init=False)
     current_state: str = field(init=False)
     halted: bool = field(init=False, default=True)
 
-    tape_string: list[tuple[str, str]] = field(init=False)
+    tape_string: List[Tuple[str, str]] = field(init=False)
 
-    def initialize(self, input_symbols: dict[int, str]):
+    def initialize(self, input_symbols: 'dict[int, str]'):
         self.head = 0
         self.halted = False
         self.current_state = self.initial_state
@@ -101,7 +102,35 @@ class TuringMachine:
 
     def divisionMode(self):
         self.states = {'s0', 's1', 's2', 's3',
-                       's4', 's5', 's6', 's8', 's9', 's10'}
+                       's4', 's5', 's6', 's7', 's8', 's9', }
+        self.symbols = {'1', 'c', 'e', 'z', 'b'}
+        self.blank_symbol = 'b'
+        self.input_symbols = {'1', 'c'}
+        self.initial_state = 's0'
+        self.accepting_states = {'s9'}
+        self.transitions = {('s0', '1'): ('s1', 'b', 1),
+                            ('s0', 'c'): ('s8', 'b', 1),
+                            ('s1', '1'): ('s1', '1', 1),
+                            ('s1', 'c'): ('s2', 'c', 1),
+                            ('s2', '1'): ('s2', '1', 1),
+                            ('s2', 'e'): ('s2', 'e', 1),
+                            ('s2', 'z'): ('s3', 'z', -1),
+                            ('s2', 'b'): ('s3', 'b', -1),
+                            ('s3', '1'): ('s4', 'e', -1),
+                            ('s3', 'e'): ('s3', 'e', -1),
+                            ('s4', '1'): ('s6', '1', -1),
+                            ('s4', 'c'): ('s5', 'c', 1),
+                            ('s5', 'e'): ('s5', '1', 1),
+                            ('s5', 'z'): ('s5', 'z', 1),
+                            ('s5', 'b'): ('s6', 'z', -1),
+                            ('s6', '1'): ('s6', '1', -1),
+                            ('s6', 'c'): ('s7', 'c', -1),
+                            ('s6', 'z'): ('s6', 'z', -1),
+                            ('s7', '1'): ('s7', '1', -1),
+                            ('s7', 'b'): ('s0', 'b', 1),
+                            ('s8', '1'): ('s8', 'b', 1),
+                            ('s8', 'z'): ('s8', '1', 1),
+                            ('s8', 'b'): ('s9', 'b', 0)}
 
     def step(self):
         if self.halted:
@@ -159,9 +188,9 @@ class TuringMachine:
 #     #                    )
 
 #     tm = TuringMachine()
-#     tm.multiplicationMode()
+#     tm.divisionMode()
 
-#     tm.initialize({0: '0', 1: '0', 2: '0', 3: '1', 4: '0', 5: '0', 6: '1'})
+#     tm.initialize({0: '1', 1: '1', 2: '1', 3: '1', 4: 'c', 5: '1', 6: '1'})
 
 #     while not tm.halted:
 #         tm.print()
