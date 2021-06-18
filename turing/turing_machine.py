@@ -20,11 +20,14 @@ class TuringMachine:
     current_state: str = field(init=False)
     halted: bool = field(init=False, default=True)
 
+    tape_string: list[tuple[str, str]] = field(init=False)
+
     def initialize(self, input_symbols: dict[int, str]):
         self.head = 0
         self.halted = False
         self.current_state = self.initial_state
         self.tape = defaultdict(lambda: self.blank_symbol, input_symbols)
+        self.tape_string = []
 
     def additionMode(self):
         self.states = {'q0', 'q1', 'q2', 'q3', 'q4', 'q5'}
@@ -96,6 +99,10 @@ class TuringMachine:
                             ('q6', '0'): ('q6', 'b', 1),
                             ('q6', '1'): ('q7', 'b', 1)}
 
+    def divisionMode(self):
+        self.states = {'s0', 's1', 's2', 's3',
+                       's4', 's5', 's6', 's8', 's9', 's10'}
+
     def step(self):
         if self.halted:
             raise RuntimeError('Cannot step halted machine')
@@ -123,37 +130,43 @@ class TuringMachine:
 #         print(f'{" " * (2 * window + 4)}^')
 
     def print(self, window=10):
-        print('... ', end='')
-        print(' '.join(self.tape[i] for i in range(
-            self.head - window, self.head + window + 1)), end='')
-        print(f' ... state={self.current_state}')
-        print(f'{" " * (2 * window + 4)}^')
+        # print('... ', end='')
+        # print(' '.join(self.tape[i] for i in range(
+        #     self.head - window, self.head + window + 1)), end='')
+        tape = ' '.join(self.tape[i] for i in range(
+            self.head - window, self.head + window + 1))
+        tape_state = (tape, self.current_state)
+        self.tape_string.append(tape_state)
+
+        # print(f' ... state={self.current_state}')
+        # print(f'{" " * (2 * window + 4)}^')
 
 
-if __name__ == '__main__':
-    # tm = TuringMachine(states={'a', 'b', 'c', 'H'},
-    #                    symbols={'0', '1'},
-    #                    blank_symbol='0',
-    #                    input_symbols={'1'},
-    #                    initial_state='a',
-    #                    accepting_states={'H'},
-    #                    transitions={('a', '0'): ('b', '1', 1),
-    #                                 ('a', '1'): ('c', '1', -1),
-    #                                 ('b', '0'): ('a', '1', -1),
-    #                                 ('b', '1'): ('b', '1', 1),
-    #                                 ('c', '0'): ('b', '1', -1),
-    #                                 ('c', '1'): ('H', '1', 1),
-    #                                 }
-    #                    )
+# if __name__ == '__main__':
+#     # tm = TuringMachine(states={'a', 'b', 'c', 'H'},
+#     #                    symbols={'0', '1'},
+#     #                    blank_symbol='0',
+#     #                    input_symbols={'1'},
+#     #                    initial_state='a',
+#     #                    accepting_states={'H'},
+#     #                    transitions={('a', '0'): ('b', '1', 1),
+#     #                                 ('a', '1'): ('c', '1', -1),
+#     #                                 ('b', '0'): ('a', '1', -1),
+#     #                                 ('b', '1'): ('b', '1', 1),
+#     #                                 ('c', '0'): ('b', '1', -1),
+#     #                                 ('c', '1'): ('H', '1', 1),
+#     #                                 }
+#     #                    )
 
-    tm = TuringMachine()
-    tm.multiplicationMode()
+#     tm = TuringMachine()
+#     tm.multiplicationMode()
 
-    tm.initialize({0: '0', 1: '0', 2: '0', 3: '1', 4: '0', 5: '0', 6: '1'})
+#     tm.initialize({0: '0', 1: '0', 2: '0', 3: '1', 4: '0', 5: '0', 6: '1'})
 
-    while not tm.halted:
-        tm.print()
-        tm.step()
-        time.sleep(1)
+#     while not tm.halted:
+#         tm.print()
+#         tm.step()
+#         # time.sleep(1)
 
-    print('Accepted : ', tm.accepted_input())
+#     print('Accepted : ', tm.accepted_input())
+#     # print(tm.tape_string)
