@@ -98,3 +98,27 @@ async def create_turing(turingInput: TuringInput):
             turingInput.tape_string = tm.tape_string
 
         return turingInput
+
+    elif turingInput.mode == 'divide':
+        tm = TuringMachine()
+        tm.divisionMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.step()
+            tm.print()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
