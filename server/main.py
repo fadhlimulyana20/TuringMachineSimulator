@@ -5,8 +5,22 @@ from pydantic import BaseModel
 import time
 
 from turing.turing_machine import TuringMachine
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class TuringInput(BaseModel):
@@ -42,8 +56,8 @@ async def create_turing(turingInput: TuringInput):
 
         timeout = time.time() + 60*5
         while not tm.halted:
-            tm.step()
             tm.print()
+            tm.step()
 
         if tm.accepted_input():
             turingInput.is_accepted = True
@@ -66,8 +80,8 @@ async def create_turing(turingInput: TuringInput):
 
         timeout = time.time() + 60*5
         while not tm.halted:
-            tm.step()
             tm.print()
+            tm.step()
 
         if tm.accepted_input():
             turingInput.is_accepted = True
@@ -114,8 +128,8 @@ async def create_turing(turingInput: TuringInput):
 
         timeout = time.time() + 60*5
         while not tm.halted:
-            tm.step()
             tm.print()
+            tm.step()
 
         if tm.accepted_input():
             turingInput.is_accepted = True
