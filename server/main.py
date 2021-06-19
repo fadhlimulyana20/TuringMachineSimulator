@@ -90,8 +90,8 @@ async def create_turing(turingInput: TuringInput):
 
         timeout = time.time() + 60*5
         while not tm.halted:
-            tm.step()
             tm.print()
+            tm.step()
 
         if tm.accepted_input():
             turingInput.is_accepted = True
