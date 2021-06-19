@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBackward, faForward, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
@@ -12,7 +12,7 @@ function App() {
   const [played, setPlayed] = useState(false)
   const [computing, setComputing] = useState(false)
   const [tapeString, setTapeString] = useState<Array<Array<string>>>([])
-  const [accepted, setAccepted] = useState()
+  const [accepted, setAccepted] = useState(false)
   const [tsidx, setTsidx] = useState(0)
 
   const tapeElement = tape.map((item, index) => {
@@ -31,13 +31,47 @@ function App() {
     setTape(tape)
 
     setState(tapeString[tsid][1])
+
+
+    if (tsidx == tapeString.length - 1) {
+      setHalted(true)
+    } else {
+      setHalted(false)
+    }
   }
 
-  const handleForward = () => {
-    setTsidx(tsidx + 1)
+  const handleForward = (e: any) => {
+    e.preventDefault()
+    if (tsidx < tapeString.length - 1) {
+      setTsidx(tsidx + 1)
+    }
 
     moveTape(tsidx)
   }
+
+  const handleBackward = (e: any) => {
+    e.preventDefault()
+    if (tsidx > 0) {
+      setTsidx(tsidx - 1)
+    }
+
+    moveTape(tsidx)
+  }
+
+  useEffect(() => {
+    let interval: any
+    if (played && tapeString && tsidx < tapeString.length) {
+      interval = setInterval(() => {
+        setTsidx(tsidx + 1)
+        console.log(tsidx)
+        moveTape(tsidx)
+      }, 1000)
+    } else {
+      clearInterval(interval);
+      setPlayed(false)
+    }
+    return () => clearInterval(interval)
+  }, [tsidx, played])
 
   const startCompute = async () => {
     console.log('compute...')
@@ -47,10 +81,14 @@ function App() {
       setTapeString(res.data.tape_string)
       setAccepted(res.data.is_accepted)
 
-      const tape = res.data.tape_string[0][0].split(' ')
-      setTape(tape)
+      if (res.data.tape_string) {
+        const tape = res.data.tape_string[0][0].split(' ')
+        setTape(tape)
+        setState(res.data.tape_string[0][1])
+        setHalted(false)
+      }
 
-      setState(res.data.tape_string[0][1])
+      setTsidx(0)
     } catch (e) {
       console.log(e)
     }
@@ -161,18 +199,22 @@ function App() {
                 <h1 className="text-sm text-blue-500 mb-0">Mode</h1>
                 <h1 className="text-md font-bold text-blue-700">{mode}</h1>
               </div>
+              <div className={`py-2 rounded text-center ${accepted ? 'bg-green-100 border-green-500' : 'bg-red-100 border-red-500'} border-2 mb-4 w-20`} id="state">
+                <h1 className={`text-sm ${accepted ? 'text-green-500' : 'text-red-500'} mb-0`}>Accepted</h1>
+                <h1 className={`text-md font-bold ${accepted ? 'text-green-700' : 'text-red-700'}`}>{accepted ? 'yes' : 'no'}</h1>
+              </div>
             </div>
             <div className="flex gap-1" id="tape">
               {tapeElement}
             </div>
             <div className="flex justify-center my-4 gap-1">
-              <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded">
+              <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded" onClick={handleBackward}>
                 <FontAwesomeIcon icon={faBackward} />
               </button>
-              <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded">
+              <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded" onClick={() => setPlayed(!played)}>
                 <FontAwesomeIcon icon={played ? faPause : faPlay} />
               </button>
-              <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded" onClick={() => handleForward()}>
+              <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded" onClick={handleForward}>
                 <FontAwesomeIcon icon={faForward} />
               </button>
             </div>
