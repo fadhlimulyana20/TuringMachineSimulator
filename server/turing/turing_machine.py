@@ -140,7 +140,7 @@ class TuringMachine:
         self.blank_symbol = 'b'
         self.input_symbols = ('0', '1')
         self.initial_state = 'q0'
-        self.accepting_states = {'q24'}
+        self.accepting_states = {'q25'}
         self.transitions = {('q0', '0'): ('q0', '0', 1),
                             ('q0', 'b'): ('q1', '1', 0),
                             ('q1', '0'): ('q1', '0', -1),
@@ -149,27 +149,28 @@ class TuringMachine:
                             ('q2', '0'): ('q3', 'x', 1),
                             ('q2', '1'): ('q5', '1', 1),
                             ('q3', '0'): ('q3', '0', 1),
-                            ('q3', '1'): ('q3', '1', -1),
+                            ('q3', '1'): ('q3', '1', 1),
                             ('q3', 'b'): ('q4', '0', 0),
                             ('q4', '0'): ('q4', '0', -1),
-                            ('q4', '1'): ('q4','1',-1),
+                            ('q4', '1'): ('q4', '1', -1),
                             ('q4', 'x'): ('q2', 'x', 1),
                             ('q5', '0'): ('q5', '0', 1),
-                            ('q5', 'b'): ('q7', '1', -1),
+                            ('q5', 'b'): ('q7', '1', 1),
                             ('q6', '0'): ('q6', '0', -1),
                             ('q6', '1'): ('q6', '1', -1),
+                            ('q6', 'b'): ('q16', 'b', 1),
                             ('q6', 'x'): ('q6', 'x', -1),
                             ('q7', '0'): ('q7', '0', -1),
-                            ('q7', '1'): ('q1', '1', -1),
+                            ('q7', '1'): ('q7', '1', -1),
+                            ('q7', 'b'): ('q8', 'b', 1),
                             ('q7', 'x'): ('q7', '0', -1),
-                            ('q7', 'b'): ('q7', 'b', 1),
                             ('q8', '0'): ('q9', 'b', 1),
                             ('q9', '0'): ('q10', 'x', 1),
                             ('q9', '1'): ('q6', '1', -1),
                             ('q10', '0'): ('q10', '0', 1),
                             ('q10', '1'): ('q11', '1', 1),
-                            ('q11', '0'): ('q11', '0', 1),
-                            ('q11', '1'): ('q11', '1', -1),
+                            ('q11', '0'): ('q12', 'x', 1),
+                            ('q11', '1'): ('q14', '1', -1),
                             ('q12', '0'): ('q12', '0', 1),
                             ('q12', '1'): ('q12', '1', 1),
                             ('q12', 'b'): ('q13', '0', 0),
@@ -181,30 +182,35 @@ class TuringMachine:
                             ('q15', '0'): ('q15', '0', -1),
                             ('q15', '1'): ('q15', '0', -1),
                             ('q15', 'x'): ('q9', 'x', 1),
-                            ('q16', '1'): ('q25', 'b', 1),
+                            ('q16', '1'): ('q24', 'b', 1),
                             ('q16', 'x'): ('q17', 'b', 1),
                             ('q17', '0'): ('q18', 'b', 1),
                             ('q17', '1'): ('q18', 'b', 1),
                             ('q17', 'x'): ('q19', 'x', 1),
                             ('q18', '0'): ('q18', 'b', 1),
-                            ('q18', '1'): ('q24', 'b', 0),
+                            ('q18', '1'): ('q25', 'b', 0),
                             ('q18', 'x'): ('q22', 'x', 1),
                             ('q19', '0'): ('q19', '0', 1),
-                            ('q19' '1'): ('q19', '1', 1),
+                            ('q19' '1'): ('q20', '1', 1),
                             ('q19', 'x'): ('q19', 'x', 1),
                             ('q20', '0'): ('q20', '0', 1),
                             ('q20', '1'): ('q21', '1', -1),
-                            ('q20', 'x'): ('q20', 'x', 1),
+                            ('q20', 'b'): ('q20', 'x', 1),
                             ('q21', '0'): ('q6', 'x', -1),
                             ('q21', '1'): ('q6', 'x', -1),
                             ('q21', 'x'): ('q21', 'x', -1),
+                            ('q22', '0'): ('q22', '0', 1),
+                            ('q22', '1'): ('q22', '1', 1),
+                            ('q22', 'b'): ('q23', '1', -1),
+                            ('q22', 'x'): ('q22', 'x', 1),
                             ('q23', '0'): ('q23', '0', -1),
-                            ('q23', '1'): ('q24', '1', -1),
-                            ('q23', 'x'): ('q24', '0', 1),
+                            ('q23', '1'): ('q23', '1', -1),
                             ('q23', 'b'): ('q9', 'b', 1),
-                            ('q25', '0'): ('q25', '0', 1),
-                            ('q25', '1'): ('q25', 'b', 1),
-                            ('q25', 'b'): ('q24', 'b', 0)}
+                            ('q23', 'x'): ('q23', '0', 1),
+                            ('q24', '0'): ('q24', '0', 1),
+                            ('q24', '1'): ('q24', 'b', 1),
+                            ('q24', 'b'): ('q25', 'b', 0),
+
 
     def powerMode(self):
         self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9'
@@ -336,6 +342,7 @@ class TuringMachine:
                             ('q11', 'b'): ('q11', 'b', -1),
                             ('q12', 'x'): ('q12', '1', -1),
                             ('q12', 'b'): ('q13', 'b', 0)}
+
     def binaryMode(self):
         self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9'
                        'q10', 'q11', 'q12'}
@@ -344,14 +351,14 @@ class TuringMachine:
         self.input_symbols = ('0', '1')
         self.initial_state = 'q0'
         self.accepting_states = {'q12'}
-        self.transitions = {('q0','1'): ('q1', '1', 1),
-                            ('q0','b'): ('q12','b', 1),
-                            ('q1','1'): ('q2', '1', 1),
+        self.transitions = {('q0', '1'): ('q1', '1', 1),
+                            ('q0', 'b'): ('q12', 'b', 1),
+                            ('q1', '1'): ('q2', '1', 1),
                             ('q1', 'b'): ('q11', 'b', -1),
-                            ('q2','1'): ('q3', 'x', 1),
-                            ('q2','b'): ('q11', 'b', -1),
+                            ('q2', '1'): ('q3', 'x', 1),
+                            ('q2', 'b'): ('q11', 'b', -1),
                             ('q3', '1'): ('q4', '1', -1),
-                            ('q3', 'x'): ('q3','x', 1),
+                            ('q3', 'x'): ('q3', 'x', 1),
                             ('q3', 'b'): ('q7', 'b', -1),
                             ('q4', '0'): ('q4', '0', -1),
                             ('q4', '1'): ('q4', '1', -1),
@@ -363,7 +370,7 @@ class TuringMachine:
                             ('q6', '0'): ('q6', '0', 1),
                             ('q6', '1'): ('q6', '1', 1),
                             ('q6', 'x'): ('q3', 'x', 1),
-                            ('q7', '0'): ('q7','0', -1),
+                            ('q7', '0'): ('q7', '0', -1),
                             ('q7', '1'): ('q7', '1', -1),
                             ('q7', 'x'): ('q7', 'b', -1),
                             ('q7', 'b'): ('q8', 'b', 1),
@@ -371,9 +378,9 @@ class TuringMachine:
                             ('q8', '1'): ('q9', '1', 1),
                             ('q9', '0'): ('q9', '1', 1),
                             ('q9', '1'): ('q10', '1', 1),
-                            ('q9', 'b'): ('q11', 'b',-1),
-                            ('q10', '0'): ('q10','1',1),
-                            ('q10', '1'): ('q10','1',1),
+                            ('q9', 'b'): ('q11', 'b', -1),
+                            ('q10', '0'): ('q10', '1', 1),
+                            ('q10', '1'): ('q10', '1', 1),
                             ('q10', 'b'): ('q12', 'b', -1),
                             ('q11', '1'): ('q12', '1', 1),
 
@@ -400,50 +407,50 @@ class TuringMachine:
             raise RuntimeError('Machine still running')
         return self.current_state in self.accepting_states
 
-#   def print(self, window=10):
-#         print('... ', end='')
-#         print(' '.join(self.tape[i] for i in range(self.head - window, self.head + window + 1)), end='')
-#         print(f' ... state={self.current_state}')
-#         print(f'{" " * (2 * window + 4)}^')
+def print(self, window=10):
+        print('... ', end='')
+        print(' '.join(self.tape[i] for i in range(self.head - window, self.head + window + 1)), end='')
+        print(f' ... state={self.current_state}')
+        print(f'{" " * (2 * window + 4)}^')
 
-    def print(self, window=10):
-        # print('... ', end='')
-        # print(' '.join(self.tape[i] for i in range(
-        #     self.head - window, self.head + window + 1)), end='')
-        tape = ' '.join(self.tape[i] for i in range(
-            self.head - window, self.head + window + 1))
-        tape_state = (tape, self.current_state)
-        self.tape_string.append(tape_state)
+    # def print(self, window=10):
+    #     # print('... ', end='')
+    #     # print(' '.join(self.tape[i] for i in range(
+    #     #     self.head - window, self.head + window + 1)), end='')
+    #     tape = ' '.join(self.tape[i] for i in range(
+    #         self.head - window, self.head + window + 1))
+    #     tape_state = (tape, self.current_state)
+    #     self.tape_string.append(tape_state)
 
-        # print(f' ... state={self.current_state}')
-        # print(f'{" " * (2 * window + 4)}^')
+    #     # print(f' ... state={self.current_state}')
+    #     # print(f'{" " * (2 * window + 4)}^')
 
 
-# if __name__ == '__main__':
-#     # tm = TuringMachine(states={'a', 'b', 'c', 'H'},
-#     #                    symbols={'0', '1'},
-#     #                    blank_symbol='0',
-#     #                    input_symbols={'1'},
-#     #                    initial_state='a',
-#     #                    accepting_states={'H'},
-#     #                    transitions={('a', '0'): ('b', '1', 1),
-#     #                                 ('a', '1'): ('c', '1', -1),
-#     #                                 ('b', '0'): ('a', '1', -1),
-#     #                                 ('b', '1'): ('b', '1', 1),
-#     #                                 ('c', '0'): ('b', '1', -1),
-#     #                                 ('c', '1'): ('H', '1', 1),
-#     #                                 }
-#     #                    )
+if __name__ == '__main__':
+    # tm = TuringMachine(states={'a', 'b', 'c', 'H'},
+    #                    symbols={'0', '1'},
+    #                    blank_symbol='0',
+    #                    input_symbols={'1'},
+    #                    initial_state='a',
+    #                    accepting_states={'H'},
+    #                    transitions={('a', '0'): ('b', '1', 1),
+    #                                 ('a', '1'): ('c', '1', -1),
+    #                                 ('b', '0'): ('a', '1', -1),
+    #                                 ('b', '1'): ('b', '1', 1),
+    #                                 ('c', '0'): ('b', '1', -1),
+    #                                 ('c', '1'): ('H', '1', 1),
+    #                                 }
+    #                    )
 
-#     tm = TuringMachine()
-#     tm.divisionMode()
+    tm = TuringMachine()
+    tm.divisionMode()
 
-#     tm.initialize({0: '1', 1: '1', 2: '1', 3: '1', 4: 'c', 5: '1', 6: '1'})
+    tm.initialize({0: '1', 1: '1', 2: '1', 3: '1', 4: 'c', 5: '1', 6: '1'})
 
-#     while not tm.halted:
-#         tm.print()
-#         tm.step()
-#         # time.sleep(1)
+    while not tm.halted:
+        tm.print()
+        tm.step()
+        # time.sleep(1)
 
-#     print('Accepted : ', tm.accepted_input())
+    print('Accepted : ', tm.accepted_input())
 #     # print(tm.tape_string)
