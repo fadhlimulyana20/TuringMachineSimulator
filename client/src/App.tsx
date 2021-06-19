@@ -14,6 +14,31 @@ function App() {
   const [tapeString, setTapeString] = useState<Array<Array<string>>>([])
   const [accepted, setAccepted] = useState(false)
   const [tsidx, setTsidx] = useState(0)
+  const [guide, setGuide] = useState<any>()
+
+  const addGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4, q5]</li>
+      <li className="list-disc list-inside">Symbols : [0, c, b, x]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [0, c]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q5]</li>
+      <li className="list-disc list-inside">e.g 000c00, c is a delimeter</li>
+    </ul>
+  )
+
+  const substractGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4, q5, q6, q7, q8, q9]</li>
+      <li className="list-disc list-inside">Symbols : [0, c, b, x]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [0, c]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q9]</li>
+      <li className="list-disc list-inside">e.g 0000c00, c is a delimeter</li>
+    </ul>
+  )
 
   const tapeElement = tape.map((item, index) => {
     if (index === 10) {
@@ -73,9 +98,20 @@ function App() {
     return () => clearInterval(interval)
   }, [tsidx, played])
 
+  useEffect(() => {
+    if (mode === 'add') {
+      setGuide(addGuide)
+    } else if (mode == 'substract') {
+      setGuide(substractGuide)
+    } else {
+      setGuide(null)
+    }
+  }, [mode])
+
   const startCompute = async () => {
     console.log('compute...')
     try {
+      setComputing(true)
       const body = { input_symbols: inputSymbols, mode }
       const res = await axios.post('http://127.0.0.1:8000/turing', body)
       setTapeString(res.data.tape_string)
@@ -91,6 +127,8 @@ function App() {
       setTsidx(0)
     } catch (e) {
       console.log(e)
+    } finally {
+      setComputing(false)
     }
   }
 
@@ -217,6 +255,10 @@ function App() {
               <button className="w-20 bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded" onClick={handleForward}>
                 <FontAwesomeIcon icon={faForward} />
               </button>
+            </div>
+            <div className="bg-yellow-100 py-3 px-5 rounded">
+              <h1 className="text-md font-medium">Guide</h1>
+              {guide}
             </div>
           </div>
         </div>
