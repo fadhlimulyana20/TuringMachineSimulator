@@ -136,3 +136,102 @@ async def create_turing(turingInput: TuringInput):
             turingInput.tape_string = tm.tape_string
 
         return turingInput
+
+    elif turingInput.mode == 'mod':
+        tm = TuringMachine()
+        tm.moduloMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.print()
+            tm.step()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
+
+    elif turingInput.mode == 'pow':
+        tm = TuringMachine()
+        tm.powerMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.print()
+            tm.step()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
+
+    elif turingInput.mode == 'factorial':
+        tm = TuringMachine()
+        tm.factorialMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.print()
+            tm.step()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
+
+    elif turingInput.mode == 'binlog':
+        tm = TuringMachine()
+        tm.binaryMode()
+
+        symbols = ','.join(turingInput.input_symbols)
+        symbols = symbols.split(',')
+        symbols_dict = {}
+
+        for i in range(len(symbols)):
+            symbols_dict[i] = symbols[i]
+
+        tm.initialize(symbols_dict)
+
+        timeout = time.time() + 60*5
+        while not tm.halted:
+            tm.print()
+            tm.step()
+
+        if tm.accepted_input():
+            turingInput.is_accepted = True
+            turingInput.tape_string = tm.tape_string
+
+        return turingInput
+
+    else:
+        return turingInput
