@@ -40,6 +40,78 @@ function App() {
     </ul>
   )
 
+  const multiplytGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4, q5, q6, q7]</li>
+      <li className="list-disc list-inside">Symbols : [1, 0, b, x]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [0, 1]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q7]</li>
+      <li className="list-disc list-inside">e.g 0001001, 1 is a delimeter</li>
+    </ul>
+  )
+
+  const divideGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [s0, s1, s2, s3, s4, s5, s6, s7, s8, s9]</li>
+      <li className="list-disc list-inside">Symbols : [1, c, e, z, b]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [1, c]</li>
+      <li className="list-disc list-inside">Initial State : [s0]</li>
+      <li className="list-disc list-inside">Accepting state : [s0]</li>
+      <li className="list-disc list-inside">e.g 1111c11, c is a delimeter</li>
+    </ul>
+  )
+
+  const factorialGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4 q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23, q24, q25]</li>
+      <li className="list-disc list-inside">Symbols : [0, 1, b, x]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [0]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q24]</li>
+      <li className="list-disc list-inside">e.g 0000, it's mean 4!</li>
+    </ul>
+  )
+
+  const modGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4 q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21]</li>
+      <li className="list-disc list-inside">Symbols : [0, c, x, y, b]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [0, c]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q19]</li>
+      <li className="list-disc list-inside">e.g 000c000, it's mean 3mod3</li>
+    </ul>
+  )
+
+  const powGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4 q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, q28, q29, q30, q31, q32]</li>
+      <li className="list-disc list-inside">Symbols : [1, x, b, y, c]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [1, c]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q32]</li>
+      <li className="list-disc list-inside">e.g 111c11, it's mean 3^2</li>
+    </ul>
+  )
+
+  const binlogGuide = (
+    <ul>
+      <li className="list-disc list-inside">State : [q0, q1, q2, q3, q4 q5, q6, q7, q8, q9, q10, q11, q12]</li>
+      <li className="list-disc list-inside">Symbols : [1, 0, x, b]</li>
+      <li className="list-disc list-inside">Blank Symbol : b</li>
+      <li className="list-disc list-inside">Input Symbol : [1]</li>
+      <li className="list-disc list-inside">Initial State : [q0]</li>
+      <li className="list-disc list-inside">Accepting state : [q12]</li>
+      <li className="list-disc list-inside">e.g 11</li>
+    </ul>
+  )
+
   const tapeElement = tape.map((item, index) => {
     if (index === 10) {
       return (
@@ -101,8 +173,20 @@ function App() {
   useEffect(() => {
     if (mode === 'add') {
       setGuide(addGuide)
-    } else if (mode == 'substract') {
+    } else if (mode === 'substract') {
       setGuide(substractGuide)
+    } else if (mode === 'multiply') {
+      setGuide(multiplytGuide)
+    } else if (mode === 'divide') {
+      setGuide(divideGuide)
+    } else if (mode === 'factorial') {
+      setGuide(factorialGuide)
+    } else if (mode === 'mod') {
+      setGuide(modGuide)
+    } else if (mode === 'pow') {
+      setGuide(powGuide)
+    } else if (mode === 'binlog') {
+      setGuide(binlogGuide)
     } else {
       setGuide(null)
     }

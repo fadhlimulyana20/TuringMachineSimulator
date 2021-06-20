@@ -102,7 +102,7 @@ class TuringMachine:
 
     def divisionMode(self):
         self.states = {'s0', 's1', 's2', 's3',
-                       's4', 's5', 's6', 's7', 's8', 's9', }
+                       's4', 's5', 's6', 's7', 's8', 's9'}
         self.symbols = {'1', 'c', 'e', 'z', 'b'}
         self.blank_symbol = 'b'
         self.input_symbols = {'1', 'c'}
@@ -133,7 +133,7 @@ class TuringMachine:
                             ('s8', 'b'): ('s9', 'b', 0)}
 
     def factorialMode(self):
-        self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9'
+        self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9',
                        'q10', 'q11', 'q12', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18',
                        'q19', 'q20', 'q21', 'q22', 'q23', 'q24', 'q25'}
         self.symbols = {'0', '1', 'b', 'x'}
@@ -212,7 +212,7 @@ class TuringMachine:
                             ('q25', 'b'): ('q24', 'b', 0)}
 
     def powerMode(self):
-        self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9'
+        self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9',
                        'q10', 'q11', 'q12', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18',
                        'q19', 'q20', 'q21', 'q22', 'q23', 'q24', 'q25', 'q26', 'q27',
                        'q28', 'q29', 'q30', 'q31', 'q32'}
