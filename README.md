@@ -25,6 +25,10 @@ source server/.venv/bin/activate
 cd server
 pip install -r requirement.txt
 ```
+- Menjalankan server python
+```
+uvicorn main:app --reload
+```
 - Menginstall dan menjalankan frontend. Buka terminal baru dan masukan perintah berikut
 ```
 cd client
