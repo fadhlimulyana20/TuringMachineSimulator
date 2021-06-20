@@ -209,7 +209,7 @@ class TuringMachine:
                             ('q23', 'x'): ('q23', '0', 1),
                             ('q24', '0'): ('q24', '0', 1),
                             ('q24', '1'): ('q24', 'b', 1),
-                            ('q24', 'b'): ('q25', 'b', 0),}
+                            ('q24', 'b'): ('q25', 'b', 0), }
 
     def powerMode(self):
         self.states = {'q0', 'q1', 'q2', 'q3', 'q4' 'q5', 'q6', 'q7', 'q8', 'q9'
@@ -382,7 +382,7 @@ class TuringMachine:
                             ('q10', '1'): ('q10', '1', 1),
                             ('q10', 'b'): ('q12', 'b', -1),
                             ('q11', '1'): ('q12', '1', 1)
-        }
+                            }
 
     def step(self):
         if self.halted:
@@ -404,9 +404,10 @@ class TuringMachine:
             raise RuntimeError('Machine still running')
         return self.current_state in self.accepting_states
 
-def print(self, window=10):
+    def print(self, window=10):
         print('... ', end='')
-        print(' '.join(self.tape[i] for i in range(self.head - window, self.head + window + 1)), end='')
+        print(' '.join(self.tape[i] for i in range(
+            self.head - window, self.head + window + 1)), end='')
         print(f' ... state={self.current_state}')
         print(f'{" " * (2 * window + 4)}^')
 
